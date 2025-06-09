@@ -1,23 +1,23 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 11:51:04 by gapachec          #+#    #+#             */
-/*   Updated: 2025/06/08 21:14:03 by gapachec         ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* philo.h                                            :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2025/04/25 11:51:04 by gapachec          #+#    #+#             */
+/* Updated: 2025/06/08 20:33:24 by gapachec         ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <pthread.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <sys/time.h>
+# include <pthread.h> // For pthreads functions (thread creation, mutexes)
+# include <stdio.h>   // For printf
+# include <unistd.h>  // For usleep
+# include <stdlib.h>  // For malloc, free
+# include <sys/time.h> // For gettimeofday
 
 /**
  * @brief Represents a single philosopher in the simulation.
@@ -79,15 +79,68 @@ typedef struct s_rules
 	pthread_t		monitor_thread;
 }	t_rules;
 
+// Function prototypes
+
+/**
+ * @brief Checks if a string contains only digits.
+ * @param str The string to check.
+ * @return 1 if valid, 0 otherwise.
+ */
 int		is_valid_number(const char *str);
+/**
+ * @brief Checks the validity of command-line arguments.
+ * @param argc The argument count.
+ * @param argv The argument vector.
+ * @return 0 on success, 1 on error.
+ */
 int		check_args_validity(int argc, char **argv);
+/**
+ * @brief Initializes the `t_rules` structure and its components.
+ * @param rules A pointer to the `t_rules` structure to initialize.
+ * @param argc The argument count.
+ * @param argv The argument vector.
+ * @return 0 on success, 1 on error.
+ */
 int		init_rules(t_rules *rules, int argc, char **argv);
+/**
+ * @brief The routine executed by the monitor thread.
+ * @param arg A pointer to the `t_rules` structure.
+ * @return NULL.
+ */
 void	*monitor_routine(void *arg);
+/**
+ * @brief The main routine executed by each philosopher thread.
+ * @param arg A pointer to a `t_philo` structure.
+ * @return NULL.
+ */
 void	*philo_routine(void *arg);
+/**
+ * @brief A safer version of `usleep` that respects the `someone_died` flag.
+ * @param duration The desired sleep duration in milliseconds.
+ * @param rules A pointer to the simulation rules.
+ */
 void	safe_usleep(long duration, t_rules *rules);
+/**
+ * @brief Converts a string to a long integer.
+ * @param str The string to convert.
+ * @return The converted long integer.
+ */
 long	ft_atoi(const char *str);
+/**
+ * @brief Prints the current state of a philosopher to stdout.
+ * @param philo A pointer to the philosopher.
+ * @param msg The state message (e.g., "is eating").
+ */
 void	print_state(t_philo *philo, char *msg);
+/**
+ * @brief Returns the current timestamp in milliseconds.
+ * @return The current time in milliseconds.
+ */
 long	timestamp(void);
+/**
+ * @brief Frees all dynamically allocated memory and destroys mutexes.
+ * @param rules A pointer to the simulation rules.
+ */
 void	free_all(t_rules *rules);
 
 #endif
