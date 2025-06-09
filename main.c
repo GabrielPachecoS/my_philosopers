@@ -6,12 +6,20 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:51:11 by gapachec          #+#    #+#             */
-/*   Updated: 2025/06/08 20:35:32 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/06/08 21:12:59 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * @brief Validates the command-line arguments.
+ * * Checks if the number of arguments is correct (5 or 6) and if all arguments
+ * representing numerical values are valid numbers.
+ * * @param argc The argument count.
+ * @param argv The argument vector.
+ * @return Returns 0 if arguments are valid, 1 if there's an error.
+ */
 static int	start_threads(t_rules *rules)
 {
 	int			i;
@@ -29,6 +37,14 @@ static int	start_threads(t_rules *rules)
 	return (0);
 }
 
+/**
+ * @brief Handles the special case of a single philosopher.
+ * * For a single philosopher, they think, try to take a fork (which is always
+ * the same one), and then die because they can't take a second fork to eat.
+ * * @param rules A pointer to the simulation rules structure.
+ * @return Always returns 1 to indicate the scenario is handled and the program
+ * can exit.
+ */
 static int	handle_one_philo(t_rules *rules)
 {
 	print_state(&rules->philos[0], "is thinking");
@@ -39,6 +55,14 @@ static int	handle_one_philo(t_rules *rules)
 	return (1);
 }
 
+/**
+ * @brief Main function for the Philosophers problem simulation.
+ * * Initializes rules, handles the single philosopher case, starts threads,
+ * waits for all threads to finish, and cleans up resources.
+ * * @param argc The number of command-line arguments.
+ * @param argv The array of command-line argument strings.
+ * @return Returns 0 on successful execution, 1 on error.
+ */
 int	main(int argc, char **argv)
 {
 	t_rules	rules;

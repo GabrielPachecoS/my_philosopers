@@ -6,12 +6,21 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:51:40 by gapachec          #+#    #+#             */
-/*   Updated: 2025/04/25 16:34:56 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/06/08 21:16:03 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/**
+ * @brief Initializes the core rule values from command-line arguments.
+ * * Converts string arguments to long integers and sets the initial values
+ * for the simulation rules. `must_eat_count` is set to -1 by default if not
+ * provided.
+ * * @param rules A pointer to the `t_rules` structure to be initialized.
+ * @param argc The argument count.
+ * @param argv The argument vector.
+ */
 static void	init_rules_values(t_rules *rules, int argc, char **argv)
 {
 	rules->num_philo = ft_atoi(argv[1]);
@@ -24,6 +33,14 @@ static void	init_rules_values(t_rules *rules, int argc, char **argv)
 		rules->must_eat_count = ft_atoi(argv[5]);
 }
 
+/**
+ * @brief Initializes all mutexes required for the simulation.
+ * * This includes the state mutex, print mutex, and an array of mutexes for
+ * the forks. Dynamically allocates memory for the forks array.
+ * * @param rules A pointer to the `t_rules` structure.
+ * @return Returns 0 on success, 1 on memory allocation or mutex initialization
+ * failure.
+ */
 static int	init_mutexes(t_rules *rules)
 {
 	int	i;
@@ -43,6 +60,14 @@ static int	init_mutexes(t_rules *rules)
 	return (0);
 }
 
+/**
+ * @brief Initializes each philosopher's structure.
+ * * Allocates memory for the array of `t_philo` structures and sets
+ * initial values for each philosopher, including their ID, meal count,
+ * last meal time, and fork assignments.
+ * * @param rules A pointer to the `t_rules` structure.
+ * @return Returns 0 on success, 1 on memory allocation failure.
+ */
 static int	init_philos(t_rules *rules)
 {
 	int	i;
@@ -64,6 +89,15 @@ static int	init_philos(t_rules *rules)
 	return (0);
 }
 
+/**
+ * @brief Main initialization function for the simulation rules and entities.
+ * * Orchestrates the argument validation, rule value setting, mutex 
+ * initialization, and philosopher initialization.
+ * * @param rules A pointer to the `t_rules` structure to be initialized.
+ * @param argc The argument count.
+ * @param argv The argument vector.
+ * @return Returns 0 on complete success, 1 if any initialization step fails.
+ */
 int	init_rules(t_rules *rules, int argc, char **argv)
 {
 	if (check_args_validity(argc, argv) != 0)
