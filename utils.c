@@ -6,7 +6,7 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:51:33 by gapachec          #+#    #+#             */
-/*   Updated: 2025/06/08 21:10:04 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/08/28 20:40:53 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,26 @@ void	free_all(t_rules *rules)
 {
 	int	i;
 
-	i = 0;
-	while (i < rules->num_philo)
+	if (!rules)
+		return ;
+	if (rules->philos)
 	{
-		pthread_mutex_destroy(&rules->forks[i]);
-		i++;
+		free(rules->philos);
+		rules->philos = NULL;
 	}
-	free(rules->forks);
-	free(rules->philos);
-	pthread_mutex_destroy(&rules->state_mutex);
+	if (rules->forks)
+	{
+		i = 0;
+		while (i < rules->num_philo)
+		{
+			pthread_mutex_destroy(&rules->forks[i]);
+			i++;
+		}
+		free(rules->forks);
+		rules->forks = NULL;
+	}
 	pthread_mutex_destroy(&rules->print_mutex);
+	pthread_mutex_destroy(&rules->state_mutex);
 }
 
 /**
