@@ -6,7 +6,7 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:51:40 by gapachec          #+#    #+#             */
-/*   Updated: 2025/08/28 20:49:27 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:10:36 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,7 @@ int	init_rules(t_rules *rules, int argc, char **argv)
 {
 	if (check_args_validity(argc, argv) != 0)
 		return (1);
-
 	init_rules_values(rules, argc, argv);
-
 	if (init_mutexes(rules) != 0)
 	{
 		free_all(rules);

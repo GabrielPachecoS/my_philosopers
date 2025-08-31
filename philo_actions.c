@@ -6,7 +6,7 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:34:22 by gapachec          #+#    #+#             */
-/*   Updated: 2025/06/08 21:17:55 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:10:33 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	philo_eat(t_philo *philo)
 		print_state(philo, "has taken a fork");
 	}
 	pthread_mutex_lock(&philo->rules->state_mutex);
-	philo->last_meal_time = timestamp();
+	philo->last_meal_time = timestamp() - philo->rules->time_initial;
 	pthread_mutex_unlock(&philo->rules->state_mutex);
 	print_state(philo, "is eating");
 	safe_usleep(philo->rules->time_to_eat, philo->rules);

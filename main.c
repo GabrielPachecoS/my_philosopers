@@ -6,11 +6,28 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:51:11 by gapachec          #+#    #+#             */
-/*   Updated: 2025/08/28 20:49:58 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:10:37 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int	join_philo(t_rules *rules)
+{
+	int	i;
+
+	i = 0;
+	while (i < rules->num_philo)
+	{
+		if (pthread_join(rules->philos[i].thread_id, NULL) != 0)
+		{
+			free_all(rules);
+			return (printf("Error: failed to join philosopher thread\n"), 1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 /**
  * @brief Validates the command-line arguments.
@@ -72,9 +89,7 @@ static int	handle_one_philo(t_rules *rules)
 int	main(int argc, char **argv)
 {
 	t_rules	rules;
-	int		i;
 
-	i = 0;
 	if (init_rules(&rules, argc, argv) != 0)
 		return (1);
 	rules.time_initial = timestamp();
@@ -85,16 +100,7 @@ int	main(int argc, char **argv)
 		free_all(&rules);
 		return (printf("Error: failed to start threads\n"), 1);
 	}
-	i = 0;
-	while (i < rules.num_philo)
-	{
-		if (pthread_join(rules.philos[i].thread_id, NULL) != 0)
-		{
-			free_all(&rules);
-			return (printf("Error: failed to join philosopher thread\n"), 1);
-		}
-		i++;
-	}
+	join_philo(&rules);
 	if (pthread_join(rules.monitor_thread, NULL) != 0)
 	{
 		free_all(&rules);

@@ -6,7 +6,7 @@
 /*   By: gapachec <gapachec@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 11:55:13 by gapachec          #+#    #+#             */
-/*   Updated: 2025/06/08 21:07:18 by gapachec         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:10:35 by gapachec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_death(t_rules *rules)
 	while (i < rules->num_philo)
 	{
 		pthread_mutex_lock(&rules->state_mutex);
-		time = timestamp() - rules->time_initial;
+		time = timestamp();
 		time_snc_lst_meal = time - rules->philos[i].last_meal_time;
 		if (time_snc_lst_meal >= rules->time_to_die)
 		{
